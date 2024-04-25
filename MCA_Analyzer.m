@@ -29,13 +29,19 @@ clc;
 clear variables;
 close all;
 
-FILE_NAME = 'acryl1piece_long_24hour.txt';
+% Set the full path of the file directly
+FILE_NAME = 'C:\Users\6122338134\OneDrive - The University of Tokyo\MCA_analyzer\acryl1piece_long_24hour.txt'; % Modify the path as needed
 COIN_WINDOW = 1000; % in nanoseconds
 OUTPUT_CSV = [strrep(FILE_NAME, '.txt', ''), '_analysis.csv']; % Output file 
 
+% Check if the file exists
+if exist(FILE_NAME, 'file') ~= 2
+    error('File does not exist.');
+end
+
 fid = fopen(FILE_NAME);
 if fid == -1
-    error('File does not exist.');
+    error('Error opening file.');
 end
 
 % Read data from CSV
