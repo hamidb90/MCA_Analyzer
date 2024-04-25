@@ -10,7 +10,7 @@
 % Instructions:
 % 1. Record data in List mode with USB-MCA4 software.
 % 2. Convert binary data to CSV via the software's file menu.
-% 3. Replace FILE_NAME with your CSV file's name.
+% 3. Replace FILE_NAME with your CSV file's name and path.
 % 4. Adjust COIN_WINDOW to fit your timing needs for coincidence detection.
 % 5. The output is displayed on the screen and recorded on a csv file
 % FILE_Name_analysis.csv
@@ -62,13 +62,13 @@ end
 histCh12 = zeros(1025, 1025);
 histCh23 = zeros(1025, 1025);
 histCh31 = zeros(1025, 1025);
-histCh14 = zeros(1025, 1025);  % Additional histogram for Channel 1 and 4
-histCh34 = zeros(1025, 1025);  % Additional histogram for Channel 3 and 4
+histCh14 = zeros(1025, 1025); 
+histCh34 = zeros(1025, 1025); 
 
 histCh123 = zeros(1025, 1025, 1025);
-histCh134 = zeros(1025, 1025, 1025);  % Histogram for Channel 1, 3, and 4
-histCh124 = zeros(1025, 1025, 1025);  % Histogram for Channel 1, 2, and 4
-histCh234 = zeros(1025, 1025, 1025);  % Histogram for Channel 2, 3, and 4
+histCh134 = zeros(1025, 1025, 1025);  
+histCh124 = zeros(1025, 1025, 1025);  
+histCh234 = zeros(1025, 1025, 1025);  
 
 quadraHitsCount = 0;
 noOfNHits = zeros(1, 5); 
@@ -199,10 +199,9 @@ summaryTable = table({'Single Hit'; 'Double Hit'; 'Triple Hit'; 'Quadruple Hit'}
                      [uncertaintySingle; uncertaintyDouble; uncertaintyTriple; uncertaintyQuadra], ...
                      'VariableNames', {'Event_Type', 'Total_Hits', 'Counts_Per_Minute', 'Counts_Per_Hour', 'Standard_Deviation_Per_Hour', 'Uncertainty_Per_Hour'});
 
-% Save the summary table to a CSV file
 writetable(summaryTable, OUTPUT_CSV);
 
-% Display information including cpm, cph, and std/h
+
 disp(['Number of events: ', num2str(nEvent)]);
 disp(summaryTable);
 
@@ -226,30 +225,30 @@ roundedOverallMax = max(100 * ceil(maxOverall / 100), 100);
 figure(WindowState="maximized");
 subplot(2,1,1); % Subplot for raw data
 hold on;
-plot(histCh{1}, 'k', 'LineWidth', 2);  % Black for Channel 1
-plot(histCh{2}, 'r', 'LineWidth', 2);  % Red for Channel 2
-plot(histCh{3}, 'g', 'LineWidth', 2);  % Dark Green for Channel 3
-plot(histCh{4}, 'b', 'LineWidth', 2);  % Blue for Channel 4
+plot(histCh{1}, 'k', 'LineWidth', 2);  
+plot(histCh{2}, 'r', 'LineWidth', 2);  
+plot(histCh{3}, 'g', 'LineWidth', 2);  
+plot(histCh{4}, 'b', 'LineWidth', 2);  
 hold off;
 legend('Channel 1', 'Channel 2', 'Channel 3', 'Channel 4');
 title('Raw Pulse Heights for All Channels');
 xlabel('Pulse Height');
 ylabel('Count');
 xlim([0 1024]);
-ylim([0 roundedOverallMax]);  % Unified y-axis limit based on max value across all channels
+ylim([0 roundedOverallMax]);  
 
 % Subplot for smoothed data
 subplot(2,1,2);
 hold on;
 smoothingSpan = 10;  % Adjust the smoothing window size as needed
-plot(smooth(histCh{1}, smoothingSpan), 'k', 'LineWidth', 2);  % Smoothed black for Channel 1
-plot(smooth(histCh{2}, smoothingSpan), 'r', 'LineWidth', 2);  % Smoothed red for Channel 2
-plot(smooth(histCh{3}, smoothingSpan), 'g', 'LineWidth', 2);  % Smoothed dark green for Channel 3
-plot(smooth(histCh{4}, smoothingSpan), 'b', 'LineWidth', 2);  % Smoothed blue for Channel 4
+plot(smooth(histCh{1}, smoothingSpan), 'k', 'LineWidth', 2);  
+plot(smooth(histCh{2}, smoothingSpan), 'r', 'LineWidth', 2);  
+plot(smooth(histCh{3}, smoothingSpan), 'g', 'LineWidth', 2);  
+plot(smooth(histCh{4}, smoothingSpan), 'b', 'LineWidth', 2);  
 hold off;
 legend('Channel 1', 'Channel 2', 'Channel 3', 'Channel 4');
 title('Smoothed Pulse Heights for All Channels');
 xlabel('Pulse Height');
 ylabel('Count');
 xlim([0 1024]);
-ylim([0 roundedOverallMax]);  % Unified y-axis limit based on max value across all channels
+ylim([0 roundedOverallMax]);  
